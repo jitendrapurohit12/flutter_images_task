@@ -11,7 +11,7 @@ import Flutter
   
   override func application(
     _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     
     let controller = window.rootViewController as! FlutterViewController
@@ -32,10 +32,6 @@ import Flutter
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   
-  override func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    eventChannel?.setStreamHandler(linkStreamHandler)
-    return linkStreamHandler.handleLink(url.absoluteString)
-  }
 }
 
 
