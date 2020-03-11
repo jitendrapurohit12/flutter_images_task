@@ -10,6 +10,7 @@ class ApiService {
   static const kImageListEndPoint = 'list';
   String grayscaleImageUrl(String id) =>
       'https://picsum.photos/id/$id/500/?grayscale';
+  String imageInfoByIdUrl(String id) => 'https://picsum.photos/id/$id/info';
 
   Future<List<ImageModel>> getColorfulImages(int pageNo) async {
     Map<String, dynamic> map = Map();
@@ -28,6 +29,22 @@ class ApiService {
       });
 
       return list;
+    } on DioError catch (e) {
+      throw Failure(e.error.message);
+    } catch (e) {
+      throw Failure(e.response.data['message']);
+    }
+  }
+
+  Future<ImageModel> getImageInfo(String id) async {
+    try {
+      var response = await _dio.get(imageInfoByIdUrl(id));
+      ImageModel model = ImageModel();
+
+      model = ImageModel.fromJson(response.data);
+      model.grayscaleDownloadUrl = grayscaleImageUrl(model.id);
+
+      return model;
     } on DioError catch (e) {
       throw Failure(e.error.message);
     } catch (e) {

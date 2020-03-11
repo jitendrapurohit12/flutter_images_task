@@ -7,13 +7,19 @@ class BasicScaffold extends StatefulWidget {
   final Widget body;
   final FloatingActionButton floatingActionButton;
   final StreamController<String> errorController;
+  final TabController tabController;
+  final List<Widget> tabs;
+  final List<Widget> tabBody;
 
   BasicScaffold(
       {Key key,
       this.appBar,
       this.body,
       this.errorController,
-      this.floatingActionButton})
+      this.floatingActionButton,
+      this.tabController,
+      this.tabs,
+      this.tabBody})
       : super(key: key);
 
   @override
