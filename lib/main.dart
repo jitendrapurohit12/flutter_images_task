@@ -5,6 +5,7 @@ import 'package:flutter_images_task/notifiers/single_image_notifier.dart';
 import 'package:provider/provider.dart';
 
 import 'deeplink/poc.dart';
+import 'models/router_model.dart';
 
 void main() => runApp(FlutterImagesTask());
 

@@ -1,15 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_images_task/constants/constants.dart';
 import 'package:flutter_images_task/enums/notofier_state.dart';
 import 'package:flutter_images_task/notifiers/images_notofier.dart';
 import 'package:flutter_images_task/ui/common/basic_scaffold.dart';
 import 'package:flutter_images_task/ui/common/image_card.dart';
-import 'package:flutter_images_task/ui/common/tab_selection.dart';
 import 'package:provider/provider.dart';
 
+import 'image_details.dart';
+
 class ScreenDashboard extends StatefulWidget {
+  final String id;
+  final bool isGrayscale;
+
+  const ScreenDashboard({Key key, this.id, this.isGrayscale}) : super(key: key);
   @override
   _ScreenDashboardState createState() => _ScreenDashboardState();
 }
@@ -19,11 +23,24 @@ class _ScreenDashboardState extends State<ScreenDashboard>
   int _pageNo = 1;
   StreamController<String> _errorController = StreamController();
   TabController _tabController;
+  bool redirected = false;
 
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(ScreenDashboard oldWidget) {
+    Future.delayed(Duration(), () {
+      if (!redirected && widget.id != null) {
+        redirected = true;
+        redirect();
+      }
+    });
+
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -138,5 +155,20 @@ class _ScreenDashboardState extends State<ScreenDashboard>
         childCount: notifier.list.length,
       ),
     );
+  }
+
+  void redirect() async {
+    print('id dashbard: ${widget.id}');
+    if (widget.id != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ScreenImageDetails(
+            id: widget.id,
+            isGrayscale: widget.isGrayscale,
+          ),
+        ),
+      );
+    }
   }
 }
